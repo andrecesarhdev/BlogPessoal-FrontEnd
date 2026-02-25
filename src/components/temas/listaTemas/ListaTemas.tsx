@@ -7,6 +7,7 @@ import { AuthContext } from "../../../contexts/AuthContext";
 import type Tema from "../../../models/Tema";
 import { buscar } from "../../../services/Service";
 import CardTema from "../cardTemas/CardTema";
+import { ToastAlerta } from "../../../utils/ToastAlerta";
 
 function ListaTemas() {
   //constante navigate, que usa o hook useNavigate(). Com ela, consigo redirecionar o usuário para outras páginas da aplicação sempre que necessário
@@ -27,7 +28,7 @@ function ListaTemas() {
   //Usei o hook useEffect para monitorar mudanças no estado token do usuário.
   useEffect(() => {
     if (token === "") {
-      alert("Você precisa estar logado!");
+      ToastAlerta("Você precisa estar logado!", 'erro');
       navigate("/");
     }
   }, [token]);

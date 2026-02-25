@@ -11,9 +11,10 @@ function CardPostagem({ postagem }: CardPostagensProps) {
             flex flex-col rounded overflow-hidden justify-between'>
                 
             <div>
-                <div className="flex w-full bg-indigo-400 py-2 px-4 items-center gap-4">
+                <div className="flex w-full bg-gray-300 py-2 px-4 items-center gap-4">
                     <img
-                        src={postagem.usuario?.foto}
+                        src={postagem.usuario?.foto || "https://github.com/andrecesarhdev"}
+                        onError={(e) => e.currentTarget.src = "https://cdn-icons-png.flaticon.com/512/17/17004.png"}
                         className='h-12 rounded-full'
                         alt={postagem.usuario?.nome} />
                     <h3 className='text-lg font-bold text-center uppercase'>
@@ -23,8 +24,8 @@ function CardPostagem({ postagem }: CardPostagensProps) {
                 <div className='p-4 '>
                     <h4 className='text-lg font-semibold uppercase'>{postagem.titulo}</h4>
                     <p>{postagem.texto}</p>
-                    <p>Tema: {postagem.tema?.descricao}</p>
-                    <p>Data: {new Intl.DateTimeFormat("pt-BR", {
+                    <p className='font-semibold'>Tema: {postagem.tema?.descricao}</p>
+                    <p className='font-semibold'>Data: {new Intl.DateTimeFormat("pt-BR", {
                         dateStyle: "medium",
                         timeStyle: 'short',
                     }).format(new Date(postagem.data))}</p>
@@ -32,7 +33,7 @@ function CardPostagem({ postagem }: CardPostagensProps) {
             </div>
             <div className="flex">
                 <Link to={`/editarpostagem/${postagem.id}`} 
-                    className='w-full text-white bg-indigo-400 
+                    className='w-full text-white bg-gray-500
                     hover:bg-indigo-800 flex items-center justify-center py-2'>
                     <button>Editar</button>
                 </Link>

@@ -4,23 +4,28 @@ import {
   useContext,
   useEffect,
   useState,
-  type ChangeEvent,
-  type FormEvent,
+  type ChangeEvent
 } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { ClipLoader } from "react-spinners";
 import { AuthContext } from "../../../contexts/AuthContext";
 import type Postagem from "../../../models/Postagem";
-import type  Tema  from "../../../models/Tema";
+import type Tema from "../../../models/Tema";
 import { atualizar, buscar, cadastrar } from "../../../services/Service";
+import { ToastAlerta } from "../../../utils/ToastAlerta";
 
 function FormPostagem() {
   const navigate = useNavigate();
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  //vai armazenar a lista de temas que vem do get
   const [temas, setTemas] = useState<Tema[]>([]);
 
+  //guarda o tema que o usuario clicou
   const [tema, setTema] = useState<Tema>({ id: 0, descricao: "" });
+
+  // guarda oque o usuario digitou na postagem 
   const [postagem, setPostagem] = useState<Postagem>({} as Postagem);
 
   const { id } = useParams<{ id: string }>();
@@ -28,6 +33,7 @@ function FormPostagem() {
   const { usuario, handleLogout } = useContext(AuthContext);
   const token = usuario.token;
 
+  // get de temas para poder cadastrar postagem
   async function buscarPostagemPorId(id: string) {
     try {
       await buscar(`/postagens/${id}`, setPostagem, {
@@ -66,11 +72,12 @@ function FormPostagem() {
 
   useEffect(() => {
     if (token === "") {
-      alert("Você precisa estar logado");
+      ToastAlerta("Você precisa estar logado", 'info');
       navigate("/");
     }
   }, [token]);
 
+  // dois em um busca tema e o if so roda se eu estiver editando uma postagem.
   useEffect(() => {
     buscarTemas();
 
@@ -86,6 +93,7 @@ function FormPostagem() {
     });
   }, [tema]);
 
+
   function atualizarEstado(e: ChangeEvent<HTMLInputElement>) {
     setPostagem({
       ...postagem,
@@ -99,7 +107,7 @@ function FormPostagem() {
     navigate("/postagens");
   }
 
-  async function gerarNovaPostagem(e: FormEvent<HTMLFormElement>) {
+  async function gerarNovaPostagem(e: ChangeEvent<HTMLFormElement>) {
     e.preventDefault();
     setIsLoading(true);
 
@@ -111,12 +119,12 @@ function FormPostagem() {
           },
         });
 
-        alert("Postagem atualizada com sucesso");
+        ToastAlerta("Postagem atualizada com sucesso", 'sucesso');
       } catch (error: any) {
         if (error.toString().includes("401")) {
           handleLogout();
         } else {
-          alert("Erro ao atualizar a Postagem");
+          ToastAlerta("Erro ao atualizar a Postagem", 'erro');
         }
       }
     } else {
@@ -127,12 +135,12 @@ function FormPostagem() {
           },
         });
 
-        alert("Postagem cadastrada com sucesso");
+         ToastAlerta("Postagem atualizada com sucesso", 'sucesso');
       } catch (error: any) {
         if (error.toString().includes("401")) {
           handleLogout();
         } else {
-          alert("Erro ao cadastrar a Postagem");
+          ToastAlerta("Erro ao atualizar a Postagem", 'erro');
         }
       }
     }

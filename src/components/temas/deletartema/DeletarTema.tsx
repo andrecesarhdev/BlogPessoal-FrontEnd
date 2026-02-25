@@ -1,10 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { ClipLoader } from "react-spinners";
 import { AuthContext } from "../../../contexts/AuthContext";
 import type Tema from "../../../models/Tema";
 import { buscar, deletar } from "../../../services/Service";
-import { ClipLoader } from "react-spinners";
+import { ToastAlerta } from "../../../utils/ToastAlerta";
 
 function DeletarTema() {
   const navigate = useNavigate();
@@ -34,7 +35,7 @@ function DeletarTema() {
 
   useEffect(() => {
     if (token === "") {
-      alert("Você precisa estar logado");
+      ToastAlerta("Você precisa estar logado",'erro');
       navigate("/");
     }
   }, [token]);
@@ -55,12 +56,12 @@ function DeletarTema() {
         },
       });
 
-      alert("Tema apagado com sucesso");
+      ToastAlerta("Tema apagado com sucesso",'sucesso');
     } catch (error: any) {
       if (error.toString().includes("401")) {
         handleLogout();
       } else {
-        alert("Erro ao deletar o tema.");
+        ToastAlerta("Erro ao deletar o tema.", 'erro');
       }
     }
 
