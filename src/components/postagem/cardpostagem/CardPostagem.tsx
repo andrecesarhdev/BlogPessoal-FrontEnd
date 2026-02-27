@@ -21,7 +21,7 @@ function CardPostagem({ postagem }: CardPostagensProps) {
                         {postagem.usuario?.nome}
                     </h3>
                 </div>
-                <div className='p-4 '>
+                <div className='p-4 bg-slate-100 h-full'>
                     <h4 className='text-lg font-semibold uppercase'>{postagem.titulo}</h4>
                     <p>{postagem.texto}</p>
                     <p className='font-semibold'>Tema: {postagem.tema?.descricao}</p>
@@ -34,7 +34,7 @@ function CardPostagem({ postagem }: CardPostagensProps) {
             <div className="flex">
                 <Link to={`/editarpostagem/${postagem.id}`} 
                     className='w-full text-white bg-gray-500
-                    hover:bg-indigo-800 flex items-center justify-center py-2'>
+                    hover:bg-gray-900 flex items-center justify-center py-2'>
                     <button>Editar</button>
                 </Link>
                 <Link to={`/deletarpostagem/${postagem.id}`}

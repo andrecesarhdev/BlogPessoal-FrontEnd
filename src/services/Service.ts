@@ -4,7 +4,7 @@ import axios from "axios";
 
 // consumindo api com axios 
 const api = axios.create({
-  baseURL: 'https://projeto-blogpessoal-b1m4.onrender.com/'
+  baseURL: import.meta.env.VITE_API_URL
 })
 // função generica pra fazer um pedido de post 
 export const cadastrarUsuario = async(url: string, dados: Object, setDados: Function) => {

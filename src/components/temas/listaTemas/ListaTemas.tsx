@@ -65,7 +65,7 @@ function ListaTemas() {
     <>
       {isLoading && (
         <div className="flex justify-center w-full my-8">
-          <SyncLoader color="#312e81" size={32} />
+          <SyncLoader color="gray" size={32} />
         </div>
       )}
 
